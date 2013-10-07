@@ -48,6 +48,9 @@ The brickpi package has the following functions:
   sets the speed of the given list of motor ports to the given speed.
   The speed is a number between [-255,255].
 
+- speed_number = brickpi.motorSpeed(port_number): returns the speed
+  set for the given motor port number.
+
 - brickpi.motorSteering(port1, port2, steer, power): sets the speed
   of two motors (port1 and port2) depending on the steer value (in
   range [-1,1]) and in the power value (in range [-1,1]). When steer=-1
@@ -55,9 +58,6 @@ The brickpi package has the following functions:
   of one motor to 255*power, and the other to -255*power. When steer=0,
   speed of both motors is set to 255*power. A negative power value
   will change the direction of the movement of motors.
-
-- speed_number = brickpi.motorSpeed(port_number): returns the speed
-  set for the given motor port number.
 
 - brickpi.sensorValue(port_number): reads the value of the sensor
   at the given port number.
