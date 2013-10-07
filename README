@@ -21,8 +21,64 @@ brickpi = require "brickpi"
 
 The brickpi package has the following functions:
 
-- boolean,error_message = brickpi.setup()
-- 
+- boolean,error_message = brickpi.setup(): initializes the BrickPi
+  C environment. Returns true if everything is ok, otherwise it
+  returns false and an error message string.
+
+- brickpi.motorEnable(number, number, ...): initializes the given
+  port numbers as motor ports.
+
+- brickpi.sensorType(port_number, type_number): initializes the
+  given port number as sensor of the given type.
+
+- boolean,error_message = brickpi.setupSensors(): after motors
+  and sensors initialization, this function setup the configuration.
+  It returns true if everything is ok, otherwise it returns false
+  and an error message string.
+
+- brickpi.sleep(ms): sleeps the given number of mili-seconds.
+
+- boolean,error_message = brickpi.update(): this function updates
+  the BrickPi C environment, providing motor update and sensor
+  read.
+
+- brickpi.motorSpeed(port_number, speed_number): sets the given
+  motor to the given speed. The speed is a number between
+  [-255,255].
+
+- brickpi.sensorValue(port_number): reads the value of the sensor
+  at the given port number.
+
+The following port and sensor numbers are available:
+
+- brickpi.PORT_A
+- brickpi.PORT_B
+- brickpi.PORT_C
+- brickpi.PORT_D
+
+- brickpi.PORT_1
+- brickpi.PORT_2
+- brickpi.PORT_3
+- brickpi.PORT_4
+
+- brickpi.TYPE_MOTOR_PWM
+- brickpi.TYPE_MOTOR_SPEED
+- brickpi.TYPE_MOTOR_POSITION
+
+- brickpi.TYPE_SENSOR_RAW
+- brickpi.TYPE_SENSOR_LIGHT_OFF
+- brickpi.TYPE_SENSOR_LIGHT_ON
+- brickpi.TYPE_SENSOR_TOUCH
+- brickpi.TYPE_SENSOR_ULTRASONIC_CONT
+- brickpi.TYPE_SENSOR_ULTRASONIC_SS
+- brickpi.TYPE_SENSOR_RCX_LIGHT
+- brickpi.TYPE_SENSOR_COLOR_FULL
+- brickpi.TYPE_SENSOR_COLOR_RED
+- brickpi.TYPE_SENSOR_COLOR_GREEN
+- brickpi.TYPE_SENSOR_COLOR_BLUE
+- brickpi.TYPE_SENSOR_COLOR_NONE
+- brickpi.TYPE_SENSOR_I2C
+- brickpi.TYPE_SENSOR_I2C_9V
 
 More information on using C on the BrickPi can be found here:
 http://www.dexterindustries.com/BrickPi/program-it/c/
