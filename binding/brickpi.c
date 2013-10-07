@@ -8,6 +8,8 @@
 #define false 0
 #define BRICKPI_LUA_VERSION "v0.1"
 
+#define clip(v,min,max) ((v)<min?min:((v)>max?max:v))
+
 static int brickpi_setup(lua_State *L) {
   int result = BrickPiSetup();
   if (result) {
@@ -62,10 +64,32 @@ static int brickpi_sleep(lua_State *L) {
 }
 
 static int brickpi_motorSpeed(lua_State *L) {
-  int port  = lua_tointeger(L, 1);
-  int value = lua_tointeger(L, 2);
-  BrickPi.MotorSpeed[port] = value;
+  int i, n = lua_gettop(L);
+  if (n == 1) {
+    int port = lua_tointeger(L, 1);
+    lua_pushinteger(L, BrickPi.MotorSpeed[port]);
+    return 1;
+  }
+  int port, value = lua_tointeger(L, n);
+  for (i=1;i<n;++i) {
+    port = lua_tointeger(L, 1);
+    BrickPi.MotorSpeed[port] = value;
+  }
   return 0;
+}
+
+static int brickpi_motorSteering(lua_State *L) {
+  int portA = lua_tointeger(L, 1);
+  int portB = lua_tointeger(L, 2);
+  int speedA, speedB;
+  double steering = lua_tonumber(L, 3); /* in range [-1,1] */
+  double power    = lua_tonumber(L, 4); /* in range [-1,1] */
+  steering = clip(steering, -1.0, 1.0);
+  power    = clip(power, -1.0, 1.0);
+  speedA   = ( 2.0*steering + 1.0)*255*power;
+  speedB   = (-2.0*steering + 1.0)*255*power;
+  BrickPi.MotorSpeed[portA] = clip(speedA,-255,255);
+  BrickPi.MotorSpeed[portB] = clip(speedB,-255,255);
 }
 
 static int brickpi_sensorValue(lua_State *L) {
@@ -94,6 +118,7 @@ static luaL_Reg func[] = {
   {"setupSensors", brickpi_setupSensors},
   {"sleep", brickpi_sleep},
   {"motorSpeed", brickpi_motorSpeed},
+  {"motorSteering", brickpi_motorSteering},
   {"sensorValue", brickpi_sensorValue},
   {"update", brickpi_update},
   {NULL, NULL}
@@ -101,9 +126,10 @@ static luaL_Reg func[] = {
 
 #define BIND_NUMBER(key) do {			\
     lua_pushstring(L, #key);			\
-  lua_pushnumber(L, key);			\
-  lua_rawset(L, -3);				\
+    lua_pushnumber(L, key);			\
+    lua_rawset(L, -3);				\
   } while(0)
+
 int luaopen_brickpi(lua_State *L) {
   lua_newtable(L);
   luaL_setfuncs(L, func, 0);

@@ -44,9 +44,20 @@ The brickpi package has the following functions:
   the BrickPi C environment, providing motor update and sensor
   read.
 
-- brickpi.motorSpeed(port_number, speed_number): sets the given
-  motor to the given speed. The speed is a number between
-  [-255,255].
+- brickpi.motorSpeed(port_number, port_number, ..., speed_number):
+  sets the speed of the given list of motor ports to the given speed.
+  The speed is a number between [-255,255].
+
+- brickpi.motorSteering(port1, port2, steer, power): sets the speed
+  of two motors (port1 and port2) depending on the steer value (in
+  range [-1,1]) and in the power value (in range [-1,1]). When steer=-1
+  or steer=1 the robot will spin over its center, setting the speed
+  of one motor to 255*power, and the other to -255*power. When steer=0,
+  speed of both motors is set to 255*power. A negative power value
+  will change the direction of the movement of motors.
+
+- speed_number = brickpi.motorSpeed(port_number): returns the speed
+  set for the given motor port number.
 
 - brickpi.sensorValue(port_number): reads the value of the sensor
   at the given port number.
