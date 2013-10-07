@@ -1,3 +1,14 @@
+/*
+*  Francisco Zamora-Martinez
+*  pakozm<at>gmail.com
+*  http://cafre.dsic.upv.es:8080/~pako/
+*  Initial date: October 7, 2013
+*  Last updated: October 7, 2013
+*
+*  You may use this code as you wish, provided you give credit where it's due.
+*
+*  This is the binding of BrickPi C to Lua.
+*/
 #include <time.h>
 #include <math.h>
 #include "lua.h"
