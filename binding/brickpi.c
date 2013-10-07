@@ -1,31 +1,12 @@
+#include <time.h>
+#include <math.h>
 #include "lua.h"
 #include "lauxlib.h"
 #include "BrickPi.h"
 
+#define true  1
+#define false 0
 #define BRICKPI_LUA_VERSION "v0.1"
-
-/* functions in library namespace */
-static luaL_Reg func[] = {
-  {"setup", brickpi_setup},
-  {"motorEnable", brickpi_motorEnable},
-  {"sensorType", brickpi_sensorType},
-  {"setupSensors", brickpi_setupSensors},
-  {"sleep", brickpi_sleep},
-  {"motorSpeed", brickpi_motorSpeed},
-  {"sensorValue", brickpi_sensorValue},
-  {"update", brickpi_update},
-  {NULL, NULL}
-};
-
-int luaopen_brickpi_core(lua_State *L) {
-  lua_newtable(L);
-  luaL_setfuncs(L, func, 0);
-  /* make version string available to scripts */
-  lua_pushstring(L, "_VERSION");
-  lua_pushstring(L, BRICKPI_LUA_VERSION);
-  lua_rawset(L, -3);
-  return 1;
-}
 
 static int brickpi_setup(lua_State *L) {
   int result = BrickPiSetup();
@@ -42,8 +23,9 @@ static int brickpi_setup(lua_State *L) {
 
 static int brickpi_motorEnable(lua_State *L) {
   int n = lua_gettop(L);
-  for (int i=1; i<=n; ++i) {
-    int port = lua_tointeger(L, i);
+  int i, port;
+  for (i=1; i<=n; ++i) {
+    port = lua_tointeger(L, i);
     BrickPi.MotorEnable[port] = 1;
   }
   return 0;
@@ -68,7 +50,14 @@ static int brickpi_setupSensors(lua_State *L) {
 }
 
 static int brickpi_sleep(lua_State *L) {
-  // TODO:
+  double sleeptime;
+  double seconds;
+  struct timespec req;
+  sleeptime = lua_tonumber(L,1);
+  seconds   = floor(sleeptime);
+  req.tv_sec  = (time_t)seconds;
+  req.tv_nsec = (long)((sleeptime-seconds)*1e6);
+  nanosleep(&req, 0);
   return 0;
 }
 
@@ -94,5 +83,59 @@ static int brickpi_update(lua_State *L) {
     return 2;
   }
   lua_pushboolean(L, true);
+  return 1;
+}
+
+/* functions in library namespace */
+static luaL_Reg func[] = {
+  {"setup", brickpi_setup},
+  {"motorEnable", brickpi_motorEnable},
+  {"sensorType", brickpi_sensorType},
+  {"setupSensors", brickpi_setupSensors},
+  {"sleep", brickpi_sleep},
+  {"motorSpeed", brickpi_motorSpeed},
+  {"sensorValue", brickpi_sensorValue},
+  {"update", brickpi_update},
+  {NULL, NULL}
+};
+
+#define BIND_NUMBER(key) do {			\
+    lua_pushstring(L, #key);			\
+  lua_pushnumber(L, key);			\
+  lua_rawset(L, -3);				\
+  } while(0)
+int luaopen_brickpi(lua_State *L) {
+  lua_newtable(L);
+  luaL_setfuncs(L, func, 0);
+  /* make version string available to scripts */
+  lua_pushstring(L, "_VERSION");
+  lua_pushstring(L, BRICKPI_LUA_VERSION);
+  lua_rawset(L, -3);
+  /* SETS NUMBERS FOR SENSOR, MOTOR, PORT */
+  BIND_NUMBER(PORT_A);
+  BIND_NUMBER(PORT_B);
+  BIND_NUMBER(PORT_C);
+  BIND_NUMBER(PORT_D);
+  BIND_NUMBER(PORT_1);
+  BIND_NUMBER(PORT_2);
+  BIND_NUMBER(PORT_3);
+  BIND_NUMBER(PORT_4);
+  BIND_NUMBER(TYPE_MOTOR_PWM);
+  BIND_NUMBER(TYPE_MOTOR_SPEED);
+  BIND_NUMBER(TYPE_MOTOR_POSITION);
+  BIND_NUMBER(TYPE_SENSOR_RAW);
+  BIND_NUMBER(TYPE_SENSOR_LIGHT_OFF);
+  BIND_NUMBER(TYPE_SENSOR_LIGHT_ON);
+  BIND_NUMBER(TYPE_SENSOR_TOUCH);
+  BIND_NUMBER(TYPE_SENSOR_ULTRASONIC_CONT);
+  BIND_NUMBER(TYPE_SENSOR_ULTRASONIC_SS);
+  BIND_NUMBER(TYPE_SENSOR_RCX_LIGHT);
+  BIND_NUMBER(TYPE_SENSOR_COLOR_FULL);
+  BIND_NUMBER(TYPE_SENSOR_COLOR_RED);
+  BIND_NUMBER(TYPE_SENSOR_COLOR_GREEN);
+  BIND_NUMBER(TYPE_SENSOR_COLOR_BLUE);
+  BIND_NUMBER(TYPE_SENSOR_COLOR_NONE);
+  BIND_NUMBER(TYPE_SENSOR_I2C);
+  BIND_NUMBER(TYPE_SENSOR_I2C_9V);
   return 1;
 }

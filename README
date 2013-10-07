@@ -36,7 +36,9 @@ The brickpi package has the following functions:
   It returns true if everything is ok, otherwise it returns false
   and an error message string.
 
-- brickpi.sleep(ms): sleeps the given number of mili-seconds.
+- brickpi.sleep(seconds): sleeps the given number of seconds. The
+  number is a double, so it is possible to sleep a fraction of a
+  second.
 
 - boolean,error_message = brickpi.update(): this function updates
   the BrickPi C environment, providing motor update and sensor

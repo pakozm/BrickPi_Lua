@@ -18,6 +18,7 @@
 
 // #define DEBUG
 
+#include "tick.h"
 #include <wiringPi.h>
 
 #define PORT_A 0
