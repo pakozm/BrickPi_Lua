@@ -9,18 +9,16 @@ assert(brickpi.setupSensors())
 
 brickpi.sleep(0.01)
 
-for i=1,300 do
-  brickpi.motorSpeed(brickpi.PORT_A, 200)
-  brickpi.motorSpeed(brickpi.PORT_B, 200)
+for i=1,600 do
+  brickpi.motorSpeed(brickpi.PORT_A, brickpi.PORT_B, 200)
   brickpi.update() -- FIXME: assert(....) is failing
   brickpi.sleep(0.05)
 end
 
-for i=1,300 do
-  brickpi.motorSpeed(brickpi.PORT_A, -200)
-  brickpi.motorSpeed(brickpi.PORT_B, -200)
+for i=1,600 do
+  brickpi.motorSpeed(brickpi.PORT_A, brickpi.PORT_B, -200)
   brickpi.update() -- FIXME: assert(....) is failing
   brickpi.sleep(0.05)
 end
 
--- brickpi.sensorValue(brickpi.PORT_1)
+-- brickpi.sensorValue(brickpi.PORT_1, brickpi.PORT_2)
