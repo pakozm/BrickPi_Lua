@@ -3,7 +3,7 @@
 *  pakozm<at>gmail.com
 *  http://cafre.dsic.upv.es:8080/~pako/
 *  Initial date: October 7, 2013
-*  Last updated: October 7, 2013
+*  Last updated: October 8, 2013
 *
 *  You may use this code as you wish, provided you give credit where it's due.
 *
@@ -31,6 +31,21 @@ static int brickpi_setup(lua_State *L) {
   BrickPi.Address[0] = 1;
   BrickPi.Address[1] = 2;
   lua_pushboolean(L, true);
+  return 1;
+}
+
+static int brickpi_setTimeout(lua_State *L) {
+  double value = lua_tonumber(L, 1);
+  unsigned long int ms = floor(value*1000.0);
+  int result;
+  BrickPi.Timeout = ms;
+  result = BrickPiSetTimeout();
+  if (result) {
+    lua_pushboolean(L,false);
+    lua_pushstring(L, "Impossible to set the given timeout");
+    return 2;
+  }
+  lua_pushboolean(L,true);
   return 1;
 }
 
@@ -137,6 +152,7 @@ static luaL_Reg func[] = {
   {"motorSteering", brickpi_motorSteering},
   {"sensorValue", brickpi_sensorValue},
   {"update", brickpi_update},
+  {"setTimeout", brickpi_setTimeout},
   {NULL, NULL}
 };
 

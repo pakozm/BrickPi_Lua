@@ -70,6 +70,10 @@ The brickpi package has the following functions:
 - `value, value, ... = brickpi.sensorValue(port_number, port_number, ...)`:
   reads the value of the sensors at the given port numbers.
 
+- `boolean,error_message = brickpi.setTimeout(number)`: initializes
+  the BrickPi motors timeout. Returns true if everything is ok,
+  otherwise it returns false plus an error message string.
+
 The following port and sensor numbers are available:
 
 - `brickpi.PORT_A`
