@@ -1,8 +1,11 @@
-********************************************************
-BrickPi Lua Code (bindded from BrickPi C)
+BrickPi Lua Code (binding of BrickPi C)
+=======================================
 
-In this repository is a Lua binding library of BrickPi C code. It allows
+This repository is a Lua binding library of BrickPi C code. It allows
 to program BrickPi using Lua programming language, and it is pretty cool.
+
+Installation
+------------
 
 This sofware needs Lua 5.2, which could be installed into raspbian wheezy
 by executing:
@@ -14,6 +17,9 @@ Installation is done by:
 
 - make
 - make install
+
+Reference
+---------
 
 In Lua, the library is loaded as a package:
 
@@ -93,6 +99,9 @@ The following port and sensor numbers are available:
 - brickpi.TYPE_SENSOR_I2C
 - brickpi.TYPE_SENSOR_I2C_9V
 
+BrickPi C
+---------
+
 More information on using C on the BrickPi can be found here:
 http://www.dexterindustries.com/BrickPi/program-it/c/
 
@@ -104,5 +113,3 @@ sensors.
 
 More information on hardware, firmware, and software can be found
 here: http://www.dexterindustries.com/BrickPi
-
-********************************************************
