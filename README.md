@@ -65,8 +65,8 @@ The brickpi package has the following functions:
   speed of both motors is set to 255*power. A negative power value
   will change the direction of the movement of motors.
 
-- brickpi.sensorValue(port_number): reads the value of the sensor
-  at the given port number.
+- value, value, ... = brickpi.sensorValue(port_number, port_number, ...): reads
+  the value of the sensors at the given port numbers.
 
 The following port and sensor numbers are available:
 

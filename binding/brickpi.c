@@ -104,10 +104,15 @@ static int brickpi_motorSteering(lua_State *L) {
 }
 
 static int brickpi_sensorValue(lua_State *L) {
-  int port  = lua_tointeger(L, 1);
-  long value = BrickPi.Sensor[port];
-  lua_pushnumber(L, value);
-  return 1;
+  int i, n = lua_gettop(L);
+  int port;
+  long value;
+  for (i=1; i<=n; ++i) {
+    port  = lua_tointeger(L, i);
+    value = BrickPi.Sensor[port];
+    lua_pushnumber(L, value);
+  }
+  return n;
 }
 
 static int brickpi_update(lua_State *L) {
