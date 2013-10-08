@@ -5,7 +5,8 @@
 *  Initial date: October 7, 2013
 *  Last updated: October 8, 2013
 *
-*  You may use this code as you wish, provided you give credit where it's due.
+* These files have been made available online through a Creative Commons Attribution-ShareAlike 3.0  license.
+* (http://creativecommons.org/licenses/by-sa/3.0/)
 *
 *  This is the binding of BrickPi C to Lua.
 */
