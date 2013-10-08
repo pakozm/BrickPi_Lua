@@ -71,8 +71,9 @@ The brickpi package has the following functions:
   reads the value of the sensors at the given port numbers.
 
 - `boolean,error_message = brickpi.setTimeout(number)`: initializes
-  the BrickPi motors timeout. Returns true if everything is ok,
-  otherwise it returns false plus an error message string.
+  the BrickPi motors timeout, given in seconds. The  number is a double,
+  so it is possible to give any fraction of a second. Returns true if
+  everything is ok, otherwise it returns false plus an error message string.
 
 The following port and sensor numbers are available:
 
