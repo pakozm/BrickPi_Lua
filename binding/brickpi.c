@@ -83,7 +83,7 @@ static int brickpi_motorSpeed(lua_State *L) {
   }
   int port, value = lua_tointeger(L, n);
   for (i=1;i<n;++i) {
-    port = lua_tointeger(L, 1);
+    port = lua_tointeger(L, i);
     BrickPi.MotorSpeed[port] = value;
   }
   return 0;

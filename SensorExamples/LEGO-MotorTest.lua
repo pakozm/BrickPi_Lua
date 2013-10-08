@@ -11,6 +11,7 @@ brickpi.sleep(0.01)
 
 for i=1,600 do
   brickpi.motorSpeed(brickpi.PORT_A, brickpi.PORT_B, 200)
+  print(brickpi.motorSpeed(brickpi.PORT_A),brickpi.motorSpeed(brickpi.PORT_B))
   brickpi.update() -- FIXME: assert(....) is failing
   brickpi.sleep(0.05)
 end
